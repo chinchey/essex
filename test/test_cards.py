@@ -1,39 +1,32 @@
-"""
-Tests for classes in the cards module
-"""
+""" Tests for classes in the cards module """
 import unittest
 from essex.cards import Card, Deck, Suit
 
 
 class TestSuit(unittest.TestCase):
-    """
-    Tests for the Suit class
-    """
+    """ Tests for the Suit class """
 
     def test_suit_values(self):
-        """
-        Test that suits have the correct value
-        """
+        """ Test that suits have the correct value """
         self.assertEqual(Suit.SPADE, 1)
         self.assertEqual(Suit.DIAMOND, 2)
         self.assertEqual(Suit.HEART, 3)
         self.assertEqual(Suit.CLUB, 4)
 
     def test_all_suits(self):
-        """
-        Test that the set of all suits contains the expected
-        suits (and no extra)
-        """
+        """ Test that the set of all suits contains the expected suits """
         for suit in (Suit.SPADE, Suit.DIAMOND, Suit.HEART, Suit.CLUB):
             self.assertIn(
-                suit, Suit.ALL_SUITS, f"{Suit.PRETTY_NAME[suit]} not found in ALL_SUITS"
+                suit,
+                Suit.ALL_SUITS,
+                f"{Suit.PRETTY_NAME[suit]} not found in ALL_SUITS",
             )
-        self.assertEqual(len(Suit.ALL_SUITS), 4, "Incorrect number of suits found")
+        self.assertEqual(
+            len(Suit.ALL_SUITS), 4, "Incorrect number of suits found"
+        )
 
     def test_pretty_names(self):
-        """
-        Test that the pretty names are correct
-        """
+        """ Test that the pretty names are correct """
         expected = (
             (Suit.SPADE, "Spade"),
             (Suit.DIAMOND, "Diamond"),
@@ -51,49 +44,37 @@ class TestCard(unittest.TestCase):
     """ Test cases for the Card class """
 
     def test_card_suits_positive(self):
-        """
-        Test creating cards with all the suits
-        """
+        """ Test creating cards with all the suits """
         for suit in Suit.ALL_SUITS:
             card = Card(suit, 2)
             self.assertEqual(card.suit, suit)
 
     def test_card_values_positive(self):
-        """
-        Test creating cards with all the valid values
-        """
+        """ Test creating cards with all the valid values """
         for i in range(2, 15):
             card = Card(Suit.SPADE, i)
             self.assertEqual(card.value, i)
 
     def test_card_not_equal_other(self):
-        """
-        Tests that cards are not equal to other types of objects
-        """
+        """ Tests that cards are not equal to other types of objects """
         card = Card(Suit.SPADE, 2)
         for bad_value in ("a", "1", "2", 2, 20.0, Card):
             self.assertNotEqual(card, bad_value)
 
     def test_bad_card_suit(self):
-        """
-        Test creating a card with an invalid suit
-        """
+        """ Test creating a card with an invalid suit """
         for bad_suit in ("bad", -1, 0, 5, 100):
             with self.assertRaises(AssertionError):
                 Card(bad_suit, 2)
 
     def test_bad_card_value(self):
-        """
-        Test creating a card with an invalid value
-        """
+        """ Test creating a card with an invalid value"""
         for bad_val in ("bad", -1, 0, 1, 15, 100):
             with self.assertRaises(AssertionError):
                 Card(Suit.SPADE, bad_val)
 
     def test_card_value_ordering(self):
-        """
-        Tests that cards are ordered correctly when suits match
-        """
+        """ Tests that cards are ordered correctly when suits match """
         card3 = Card(Suit.SPADE, 3)
         card2 = Card(Suit.SPADE, 2)
         card10 = Card(Suit.SPADE, 10)
@@ -113,9 +94,7 @@ class TestCard(unittest.TestCase):
         self.assertGreaterEqual(card2, card2_2)
 
     def test_card_suit_ordering(self):
-        """
-        Tests that Cards are ordered correctly by suit when value is the same
-        """
+        """ Tests that Cards are ordered correctly by suit only """
 
         spade2 = Card(Suit.SPADE, 2)
         diamond2 = Card(Suit.DIAMOND, 2)
@@ -139,8 +118,7 @@ class TestCard(unittest.TestCase):
             self.assertGreaterEqual(greater, less)
 
     def test_card_overall_ordering(self):
-        """
-        Tests that Cards are ordered correctly by suit and value
+        """Tests that Cards are ordered correctly by suit and value
 
         To get maximal coverage while still making this readable, the
         code structure is to have a list of known-good ordering of a full
@@ -172,9 +150,7 @@ class TestCard(unittest.TestCase):
                     self.assertGreaterEqual(test_card, check_card)
 
     def test_pretty_values(self):
-        """
-        Tests that values are pretty printed correctly
-        """
+        """ Tests that values are pretty printed correctly """
         expected = (
             (2, 2),
             (3, 3),
@@ -195,9 +171,7 @@ class TestCard(unittest.TestCase):
             self.assertEqual(pretty, Card(Suit.HEART, value).pretty_value)
 
     def test_str(self):
-        """
-        Tests that cards print nicely when str'd
-        """
+        """ Tests that cards print nicely when str'd """
         card1 = Card(Suit.SPADE, 2)
         card2 = Card(Suit.DIAMOND, 12)
         card3 = Card(Suit.HEART, 14)
@@ -209,9 +183,7 @@ class TestCard(unittest.TestCase):
         self.assertEqual(str(card4), "Jack of Clubs")
 
     def test_repr(self):
-        """
-        Tests that the repr of cards prints nicely
-        """
+        """ Tests that the repr of cards prints nicely """
         card1 = Card(Suit.SPADE, 2)
         card2 = Card(Suit.DIAMOND, 12)
         card3 = Card(Suit.HEART, 14)
@@ -223,17 +195,13 @@ class TestCard(unittest.TestCase):
         self.assertEqual(repr(card4), "(Club, Jack)")
 
     def test_points(self):
-        """
-        Tests that the points are calculated correctly
-        """
+        """ Tests that the points are calculated correctly """
         for card in TestDeck.ALL_CARDS:
             self.assertEqual(card.points, card.value * card.suit)
 
 
 class TestDeck(unittest.TestCase):
-    """
-    Tests for the Deck class
-    """
+    """ Tests for the Deck class """
 
     # We will often be using this set of all valid cards for validation, and
     # it's better not to keep creating and destroying the objects.
@@ -245,10 +213,8 @@ class TestDeck(unittest.TestCase):
 
     @staticmethod
     def _sanity_check(deck):
-        """
-        Common validations that check the overall integrity of our deck after
-        various operations.
-        """
+        """ Common validations that check the overall integrity of our deck """
+
         # Do we have the right number of cards
         assert len(deck.cards) + len(deck.pile) == 52
 
@@ -259,18 +225,16 @@ class TestDeck(unittest.TestCase):
             assert card in deck.cards or card in deck.pile
 
     def test_simple_creation(self):
-        """
-        Check that a deck gets created correctly
-        """
+        """ Check that a deck gets created correctly """
         deck = Deck()
         self._sanity_check(deck)
 
     def test_initial_sorted_deck(self):
-        """
-        Tests that the initial form of the deck is sorted. This isn't strictly
-        a requirement, but it is true now, and some tests will depend on this
-        behavior. So if this test starts failing, we'll need to sort the decks
-        before relying on that.
+        """Tests that the initial form of the deck is sorted.
+
+        This isn't strictly a requirement, but it is true now, and some tests
+        will depend on this behavior. So if this test starts failing, we'll
+        need to sort the decks before relying on that.
         """
         deck = Deck()
         self.assertEqual(deck.pile, [])
@@ -278,8 +242,7 @@ class TestDeck(unittest.TestCase):
             self.assertEqual(TestDeck.ALL_CARDS[i], deck.cards[i])
 
     def test_shuffle(self):
-        """
-        Tests that the shuffle method does, in fact, shuffle.
+        """Tests that the shuffle method does, in fact, shuffle.
 
         This turns out to be somewhat tricky, as I don't believe that there is
         a good way to measure randomness. We can check that the ordering is not
@@ -352,9 +315,10 @@ class TestDeck(unittest.TestCase):
             self._sanity_check(deck)
 
     def test_sort_shuffled(self):
-        """
-        Tests that shuffled decks get sorted correctly. This assumes that
-        the shuffle method functions correctly (tested elsewhere)
+        """Tests that shuffled decks get sorted correctly.
+
+        This assumes that the shuffle method functions correctly
+        (tested elsewhere)
         """
 
         # Test a few shuffles and decks, to make sure they all resolve to
@@ -377,9 +341,7 @@ class TestDeck(unittest.TestCase):
             self._sanity_check(deck)
 
     def test_draw_one(self):
-        """
-        Tests the draw one method
-        """
+        """ Tests the draw one method """
         deck = Deck()
         deck.shuffle()
 
@@ -392,10 +354,8 @@ class TestDeck(unittest.TestCase):
             self._sanity_check(deck)
 
     def test_draw_too_many(self):
-        """
-        Tests proper exception raising when attempting to draw from an
-        empty deck
-        """
+        """ Tests proper exception raising when drawing from an empty deck """
+
         deck = Deck()
         for _ in range(52):
             deck.draw_one()
@@ -403,9 +363,7 @@ class TestDeck(unittest.TestCase):
         self.assertRaises(IndexError, deck.draw_one)
 
     def test_shuffle_combines(self):
-        """
-        Tests that shuffling a deck also recombines it with its pile
-        """
+        """ Tests that shuffling a deck also recombines it with its pile """
         draws = 15
         deck = Deck()
         for _ in range(draws):
@@ -421,9 +379,7 @@ class TestDeck(unittest.TestCase):
         self._sanity_check(deck)
 
     def test_sort_combines(self):
-        """
-        Tests that sorting a deck also recombines it with its pile
-        """
+        """ Tests that sorting a deck also recombines it with its pile """
         draws = 15
         deck = Deck()
         for _ in range(draws):

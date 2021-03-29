@@ -1,6 +1,4 @@
-"""
-Tests for classes in the game module
-"""
+""" Tests for classes in the game module """
 
 import unittest
 from unittest import mock
@@ -13,9 +11,7 @@ class TestPlayer(unittest.TestCase):
     """ Tests for the Player class """
 
     def test_simple_creation(self):
-        """
-        Tests that players get initialized in a sane way
-        """
+        """ Tests that players get initialized in a sane way """
         deck = Deck()
         player = Player(deck)
         self.assertEqual(player.hand, [])
@@ -23,9 +19,10 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(player.hand_value, 0)
 
     def test_players_share_deck(self):
-        """
-        Tests that players created with the same deck are sharing it between
-        them. We are validating IDs here, which may be implementation dependent
+        """Tests that players created with the same deck share it
+
+        We are validating IDs here, which may be implementation dependent
+        (among other things)
         """
         deck = Deck()
         player1 = Player(deck)
@@ -37,9 +34,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(player1.hand[0], player2.deck.pile[0])
 
     def test_reset(self):
-        """
-        Tests that reset works correctly
-        """
+        """ Tests that reset works correctly """
         deck = Deck()
         player = Player(deck)
 
@@ -56,9 +51,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(player.hand_value, 0)
 
     def test_hand_value(self):
-        """
-        Tests that the hand value is calculated as the sum of individual cards
-        """
+        """ Tests that the hand value is calculated correctly """
         deck = Deck()
         player = Player(deck)
         card1 = Card(Suit.SPADE, 2)
@@ -72,17 +65,20 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(player.hand_value, card1.points + card2.points)
 
         player.hand = [card1, card2, card3]
-        self.assertEqual(player.hand_value, card1.points + card2.points + card3.points)
+        self.assertEqual(
+            player.hand_value, card1.points + card2.points + card3.points
+        )
 
 
 class TestGame(unittest.TestCase):
     """ Tests for the Game class """
 
     def test_fairness(self):
-        """
-        Assume that on large data sets, we should be roughly even in win
-        percentages, as the shuffle should be random, and players have equal
-        expected values.
+        """Assume that on large data sets, we should be roughly fair
+
+        This is taken to mean that on average, the players should win about
+        equally as often, as the shuffle should be random, and players have
+        equal expected values with no benefit of going first or second.
         """
         # Games to run and number of decimal places to look at the win ratio
         # We can increase iterations and tolerance for more confidence, at the
@@ -105,18 +101,14 @@ class TestGame(unittest.TestCase):
         self.assertNotEqual(win_count[game.player2], 0)
 
     def test_draw_cards(self):
-        """
-        Tests that drawing cards functions correctly
-        """
+        """ Tests that drawing cards functions correctly """
         game = Game(quiet=True)
         game.draw_cards()
         self.assertEqual(len(game.player1.hand), 3)
         self.assertEqual(len(game.player2.hand), 3)
 
     def test_compare_player1_wins(self):
-        """
-        Tests comparing hands and player1 has more points
-        """
+        """ Tests comparing hands and player1 has more points """
         game = Game()
 
         # 25 points
@@ -142,9 +134,7 @@ class TestGame(unittest.TestCase):
             self.assertEqual(output.getvalue(), expected_output)
 
     def test_compare_player_2_wins(self):
-        """
-        Tests comparing hands and player2 has more points
-        """
+        """ Tests comparing hands and player2 has more points """
         game = Game()
 
         # 24 points
@@ -170,9 +160,7 @@ class TestGame(unittest.TestCase):
             self.assertEqual(output.getvalue(), expected_output)
 
     def test_compare_neither_player_wins(self):
-        """
-        Tests comparing hands and players tie
-        """
+        """ Tests comparing hands and players tie """
         game = Game()
 
         # 25 points
@@ -198,9 +186,9 @@ class TestGame(unittest.TestCase):
             self.assertEqual(output.getvalue(), expected_output)
 
     def test_play(self):
-        """
-        Test playing a full game and then repeating with the same players
-        (elsewhere we test that outcomes are different).
+        """Test playing a full game and then repeating with the same players.
+
+        (Elsewhere we test that outcomes are different)
         """
         game = Game(quiet=True)
         games = 20
@@ -219,9 +207,7 @@ class TestGame(unittest.TestCase):
                 self.assertIsNone(winner)
 
     def test_printed_messages_draw_cards(self):
-        """
-        Tests that friendly messages are printed for game conditions
-        """
+        """ Tests that friendly messages are printed for game conditions """
         game = Game()
         with mock.patch("sys.stdout", new=StringIO()) as output:
             expected_output = (

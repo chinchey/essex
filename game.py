@@ -1,59 +1,50 @@
-"""
-Module for classes supporting players and the game.
+""" Module for classes supporting players and the game.
 """
 from essex.cards import Deck
 
 
 class Player:
-    """
-    Class representing a player of the game, keeping a hand of cards and a
-    handle to the deck used by the game instance
+    """Class representing a player of the game
+
+    The player keeps a hand of cards and a handle to the deck used
     """
 
     def __init__(self, deck):
-        """
-        Initialize the player with the given deck and an empty hand
-        """
+        """ Initialize the player with the given deck and an empty hand """
         self.hand = []
         self.deck = deck
 
     def draw_one(self):
-        """
-        Draw a single card from the deck into the player's hand
-        """
+        """ Draw a single card from the deck into the player's hand """
         card = self.deck.draw_one()
         self.hand.append(card)
         return card
 
     def __hash__(self):
-        """
-        Define a hash function so that this can be a key in dictionaries
-        """
+        """ Define a hash function so that this can be a key in dictionaries """
         return hash(id(self))
 
     def reset(self):
-        """
-        Get the player back to default starting state
-        """
+        """ Get the player back to default starting state """
         self.hand = []
 
     @property
     def hand_value(self):
-        """
-        Return the current value of the hand (sum of all card points)
-        """
+        """ Return the current value of the hand (sum of all card points) """
         return sum((card.points for card in self.hand))
 
 
 class Game:
-    """
-    Class representing the game. It will create a deck and two players,
+    """Class representing the game.
+
+    It will create a deck and two players,
     then run the game and report the results.
     """
 
     def __init__(self, quiet=False):
-        """
-        Init the game. If quiet is true, console messages will be suppressed
+        """Init the game
+
+        If quiet is true, console messages will be suppressed
         """
         self.deck = Deck()
         self.player1 = Player(self.deck)
@@ -61,9 +52,7 @@ class Game:
         self._quiet = quiet
 
     def draw_cards(self):
-        """
-        Players alternate drawing until they have drawn 3 each
-        """
+        """ Players alternate drawing until they have drawn 3 each """
         for _ in range(3):
             card1 = self.player1.draw_one()
             card2 = self.player2.draw_one()
@@ -72,9 +61,7 @@ class Game:
                 print(f"Player 2 draws {card2}\n--------")
 
     def compare_hands(self):
-        """
-        Point values for each hand are calculated and the winner is returned
-        """
+        """ Player points are calculated and the winner is returned """
 
         points1 = self.player1.hand_value
         points2 = self.player2.hand_value
@@ -92,9 +79,10 @@ class Game:
         return winner
 
     def play(self):
-        """
-        Play the game one time. Each player is reset to an empty hand and the
-        deck is shuffled. The winning player is returned.
+        """Play the game one time.
+
+        Each player is reset to an empty hand and the deck is shuffled.
+        The winning player is returned.
         """
         self.player1.reset()
         self.player2.reset()
