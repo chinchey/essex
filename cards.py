@@ -33,7 +33,7 @@ class Suit:
 class Card:
 
     # Printable names for the special ones
-    _pretty_values = {
+    _PRETTY_VALUE = {
         11: "Jack",
         12: "Queen",
         13: "King",
@@ -90,14 +90,14 @@ class Card:
         """
         Look up the pretty value, defaulting to the number
         """
-        return Card._pretty_values.get(self.value, self.value)
+        return Card._PRETTY_VALUE.get(self.value, self.value)
 
     @property
     def pretty_suit(self):
         """
         Look up the nice name for the suit.
         """
-        return Suit.pretty_name[self.suit]
+        return Suit.PRETTY_NAME[self.suit]
 
 
 class Deck:
@@ -119,22 +119,6 @@ class Deck:
         """
         self.cards.extend(self.pile)
         self.pile = []
-
-    def _sanityCheck(self):
-        """
-        Some validations that look for unexpected inconsistencies in our deck.
-        If performance is less concerning, we could call this after more
-        operations to ensure integrity. Otherwise, it can be used in unit tests
-        or other, less common times during operation.
-        """
-        # Do we have the right number of cards
-        assert len(cards) + len(pile) == 52
-
-        # Do we have all of the cards we're supposed to (combined with above,
-        # we should have exactly the right cards, all the necessary ones and
-        # no extras)
-        for c in (Card(a, b) for a in Suit.ALL_SUITS for b in range(2, 15)):
-            assert c in self.cards or c in self.pile
 
     def shuffle(self):
         """

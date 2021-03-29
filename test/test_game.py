@@ -1,8 +1,21 @@
 import unittest
-from game import Game
+from game import Game, Player
 
+
+class TestPlayer(unittest.TestCase):
+    """ Tests for the Player class """
+
+    def testSimpleCreation(self):
+        """
+        Tests that players get initialized in a sane way
+        """
+        deck = Deck()
+        player = Player(deck)
+        self.assertEqual([], player.hand)
+        self.assertEqual(id(deck), id(player.deck))
 
 class TestGame(unittest.TestCase):
+    """ Tests for the Game class """
     def test_fairness(self):
         """
         Assume that on large data sets, we should be roughly even in win
@@ -26,3 +39,4 @@ class TestGame(unittest.TestCase):
         win_ratio = win_count[g.player1] / win_count[g.player2]
 
         self.assertAlmostEqual(1.0, win_ratio, tolerance)
+

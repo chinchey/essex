@@ -6,6 +6,7 @@ class Player:
     Class representing a player of the game, keeping a hand of cards and a
     handle to the deck used by the game instance
     """
+
     def __init__(self, deck):
         self.hand = []
         self.deck = deck
@@ -34,6 +35,7 @@ class Game:
     Class representing the game. It will create a deck and two players,
     then run the game and report the results.
     """
+
     def __init__(self, quiet=False):
         """
         Init the game. If quiet is true, console messages will be suppressed
