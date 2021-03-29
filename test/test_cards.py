@@ -214,6 +214,13 @@ class TestCard(unittest.TestCase):
         self.assertEqual(repr(card3), '(Heart, Ace)')
         self.assertEqual(repr(card4), '(Club, Jack)')
 
+    def testPoints(self):
+        """
+        Tests that the points are calculated correctly
+        """
+        for card in TestDeck._ALL_CARDS:
+            self.assertEqual(card.points, card.value * card.suit)
+
 
 class TestDeck(unittest.TestCase):
 
