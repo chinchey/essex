@@ -1,10 +1,14 @@
+"""
+Classes that support cards and decks, their values in the game, and behavior
+"""
+
 from functools import total_ordering
 import random
-import time
 
-random.seed(time.time())
+random.seed()  # Defaults to current system time
 
 
+# pylint: disable=too-few-public-methods
 class Suit:
     """
     Class representing data about card suits, their values in the game, and
@@ -31,6 +35,9 @@ class Suit:
 
 @total_ordering
 class Card:
+    """
+    Class representing a single card, with a suit and value
+    """
 
     # Printable names for the special ones
     _PRETTY_VALUE = {
@@ -126,7 +133,7 @@ class Deck:
         first.
         """
         self.combine_deck_and_pile()
-        newCards = []
+        new_cards = []
 
         # Remove 52 cards from the old deck one by one, each time randomly
         # choosing which of the remaning cards to pull out. This method
@@ -134,17 +141,17 @@ class Deck:
         # and a temporary list stores them), and shuffles in a single pass.
         for i in range(51, -1, -1):
             rand_card = random.randint(0, i)
-            newCards.append(self.cards.pop(rand_card))
-        self.cards = newCards
+            new_cards.append(self.cards.pop(rand_card))
+        self.cards = new_cards
 
     def draw_one(self):
         """
         Draw a card from the deck. It goes into the discard pile, and the Card
         is returned to the caller
         """
-        nextCard = self.cards.pop(0)
-        self.pile.append(nextCard)
-        return nextCard
+        next_card = self.cards.pop(0)
+        self.pile.append(next_card)
+        return next_card
 
     def sort(self):
         """

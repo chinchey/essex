@@ -1,4 +1,7 @@
-from cards import Deck
+"""
+Module for classes supporting players and the game.
+"""
+from essex.cards import Deck
 
 
 class Player:
@@ -8,10 +11,16 @@ class Player:
     """
 
     def __init__(self, deck):
+        """
+        Initialize the player with the given deck and an empty hand
+        """
         self.hand = []
         self.deck = deck
 
     def draw_one(self):
+        """
+        Draw a single card from the deck into the player's hand
+        """
         card = self.deck.draw_one()
         self.hand.append(card)
         return card
@@ -23,10 +32,16 @@ class Player:
         return hash(id(self))
 
     def reset(self):
+        """
+        Get the player back to default starting state
+        """
         self.hand = []
 
     @property
     def hand_value(self):
+        """
+        Return the current value of the hand (sum of all card points)
+        """
         return sum((card.points for card in self.hand))
 
 

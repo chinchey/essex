@@ -75,4 +75,29 @@ ASSUMPTIONS
   I interpret this to mean that the code I write should allow this, not
   necessarily that the Game class needs to expose this functionality, which I
   have put into the Deck class (for example).
+* Pylint warnings - I silenced a pylint warning that I inspected and felt
+  the code was justified, but I want to list it here for transparency
+  ** The Suit class has too-few-public-methods (0). This is essentially an Enum
+     class, but with a couple of extra helpful features. I could not add those
+     to a class derived from enum.Enum, but preferred this structure.
+
+
+Coverage report:
+Name                 Stmts   Miss  Cover   Missing
+--------------------------------------------------
+cards.py                62      0   100%
+game.py                 50      0   100%
+test/test_cards.py     182      2    99%   322, 340
+test/test_game.py      105      0   100%
+--------------------------------------------------
+TOTAL                  399      2    99%
+
+The missing coverage from test_cards are two lines that only execute on test
+failure
+
+
+~$ python -m pylint essex/
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)_
 
