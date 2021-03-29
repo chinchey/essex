@@ -5,15 +5,18 @@ To run a game, import the Game class, instantiate and call the 'play' method.
 PYTHONPATH should be to the dir containing the essex package
 
 For example:
-`from essex.game import Game
+```
+from essex.game import Game
 game = Game()
-game.play()`
+game.play()
+```
 
 Two players are added to the game. They draw three cards each, then compare
 hand values according to the calculation rules. This uses all of the associated
 classes, however the important operations can also be called individually.
 
-`from essex.game import Game
+```
+from essex.game import Game
 from essex.cards import Deck
 
 game = Game()
@@ -22,13 +25,15 @@ game.compare_hands()
 
 deck = Deck()
 deck.shuffle()
-deck.sort()`
+deck.sort()
+```
 
 ## Assumptions
 
-- Assuming Python 3
+- Assuming Python 3.8
   - Classes need not inherit from `object`
-  - `__ne_`_ automatically delegates to `__eq__` so we don’t need to define it.
+  - `__ne__` automatically delegates to `__eq__` so we don’t need to define it.
+  - f-strings and other newer additions are available
 - Assuming the game is the scope of the project
   - The card and suit classes contain some information and calculations for
      the game that may not apply to other games. We could move this logic to
@@ -40,6 +45,8 @@ deck.sort()`
      small chance of changing in the future. Optimising for efficiency will
      likely have a negligible effect on, e.g., sorting this small set, so
      readability and maintenance are better goals
+    - With this in mind, I chose to implement ordering for Cards and use built-
+      in methods for sorting, rather than re-implementing a sorting algorithm.
   - `@total_ordering` is slightly less efficient, but produces smaller code and
      fewer errors expanding the various ordering methods
   - Sorting a deck always resolves to the same configuration of cards in the
@@ -48,7 +55,7 @@ deck.sort()`
 - The game is used by other classes and code that understand certain usage
   guidelines
   - Card values could be modified by callers. For example, drawing a card,
-     then setting card.value = something_else would be allowed, and mess up
+     then setting `card.value = something_else` would be allowed, and mess up
      the deck. The assumption is that users know not to do this. If we did not
      trust the users or wanted extra safety at the cost of memory and
      computation, we could return copies of cards, hide card data from external
