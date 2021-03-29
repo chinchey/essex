@@ -82,8 +82,10 @@ deck.sort()`
      class, but with a couple of extra helpful features. I could not add those
      to a class derived from enum.Enum, but preferred this structure.
 
+## Coverage and Pylint
 
-`Coverage report:
+### Unit Test Coverage
+```Coverage report:
 Name                 Stmts   Miss  Cover   Missing
 --------------------------------------------------
 cards.py                62      0   100%
@@ -91,14 +93,14 @@ game.py                 50      0   100%
 test/test_cards.py     182      2    99%   322, 340
 test/test_game.py      105      0   100%
 --------------------------------------------------
-TOTAL                  399      2    99%`
+TOTAL                  399      2    99%```
 
 The missing coverage from test_cards are two lines that only execute on test
 failure.
 
-
-`~$ python -m pylint essex/
+### Pylint
+```~$ python -m pylint essex/
 
 --------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)_`
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)_```
 
