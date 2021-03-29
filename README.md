@@ -2,9 +2,10 @@
 Essex Card Game
 
 To run a game, import the Game class, instantiate and call the 'play' method.
+PYTHONPATH should be to the dir containing the essex package
 
 For example:
-from game import Game
+from essex.game import Game
 game = Game()
 game.play()
 
@@ -12,8 +13,8 @@ Two players are added to the game. They draw three cards each, then compare
 hand values according to the calculation rules. This uses all of the associated
 classes, however the important operations can also be called individually.
 
-from game import Game
-from cards import Deck
+from essex.game import Game
+from essex.cards import Deck
 
 game = Game()
 game.draw_cards()
@@ -93,7 +94,7 @@ test/test_game.py      105      0   100%
 TOTAL                  399      2    99%
 
 The missing coverage from test_cards are two lines that only execute on test
-failure
+failure.
 
 
 ~$ python -m pylint essex/
