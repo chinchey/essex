@@ -17,7 +17,7 @@ class Suit:
     CLUB = 4
 
     # Easily iterable set of suits
-    ALL_SUITS = {SPADE, DIAMOND, HEART, CLUB}
+    ALL_SUITS = (SPADE, DIAMOND, HEART, CLUB)
 
     # Printable names for the suits
     PRETTY_NAME = {
