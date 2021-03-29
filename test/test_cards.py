@@ -391,6 +391,17 @@ class TestDeck(unittest.TestCase):
             self.assertEqual(drawn, deck.pile[i])
             self._sanity_check(deck)
 
+    def test_draw_too_many(self):
+        """
+        Tests proper exception raising when attempting to draw from an
+        empty deck
+        """
+        deck = Deck()
+        for _ in range(52):
+            deck.draw_one()
+
+        self.assertRaises(IndexError, deck.draw_one)
+
     def test_shuffle_combines(self):
         """
         Tests that shuffling a deck also recombines it with its pile

@@ -147,7 +147,8 @@ class Deck:
     def draw_one(self):
         """
         Draw a card from the deck. It goes into the discard pile, and the Card
-        is returned to the caller
+        is returned to the caller. If there are no more cards left, an
+        IndexError is raised
         """
         next_card = self.cards.pop(0)
         self.pile.append(next_card)
